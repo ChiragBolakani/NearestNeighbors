@@ -5,8 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 bat """
+                    call %python_venv%
                     commands.bat
-                    // call %python_venv%
                     // python get_setup_names.py
                     // python get_setup_data_json.py
                     // python get_input_data.py
