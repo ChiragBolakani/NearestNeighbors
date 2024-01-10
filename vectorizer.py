@@ -45,12 +45,14 @@ for pkl_file in pkl_files:
         data_lens.append(len(encoded_reason[0]))
         # data_lens.append(encoded_reason[0].size)
 
+    print(max(data_lens))
     padded_reason_encoded_temp = []
     for encoded_reason in data:
         data_lens.append(len(encoded_reason[0]))
         # data_lens.append(encoded_reason[0].size)
         padded_reason_encoded_temp.append(np.pad(encoded_reason[0], (0,max(data_lens)-len(encoded_reason[0])), constant_values=(0)))
         # padded_reason_encoded_temp.append(np.pad(encoded_reason[0], (0,max(data_lens)-encoded_reason[0].size), constant_values=(0)))
+    print(max(data_lens))
 
     meta_data[pkl_file.split(".")[0]] = max(data_lens)
 

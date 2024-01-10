@@ -74,7 +74,7 @@ files = [f for f in os.listdir("setup_json_data")]
 def checkWordsInComment(comment):
     pattern = r"(?u)\b\w\w+\b"
     matches = re.findall(pattern=pattern, string=comment)
-    return len(matches)
+    return (len(matches), matches)
 
 
 for setup_json_file_name in files:
@@ -86,9 +86,12 @@ for setup_json_file_name in files:
     setup_df = df
     
     for index, row in setup_df.iterrows():
-        if checkWordsInComment(row.comments) < 3:
-            print("removed row", row.comments, index)
-            setup_df.drop(index=[index])
+        len_matches, matches = checkWordsInComment(row.comments)
+        if len_matches < 10:
+            if any(word in 'rerun re-run overruled overrule Rerun [overruled] pass checked investigation required started' for word in matches):
+                # print("short commment")
+                print("removed row", row.comments, index)
+                setup_df.drop(index=[index])
 
     # failed_mnemonics_list = []
     failed_reasons_list = []
