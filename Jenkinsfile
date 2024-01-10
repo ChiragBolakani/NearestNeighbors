@@ -6,17 +6,13 @@ pipeline {
             steps {
                 bat """
                     call %python_venv%
-                    commands.bat
-                    // python get_setup_names.py
-                    // python get_setup_data_json.py
-                    // python get_input_data.py
-                    // python label_encoding.py
-                    // python 
-                    // python fit_knn.py
-                    // python fit_dct.py
-                    // python fit_svc.py
-                    // python result_analysis.py
-                    // python empty_directory.py
+                    // commands.bat
+                    python get_setup_names.py %Location%
+                    python get_setup_data_json.py %Location%
+                    python get_input_data_with_reason.py
+                    python label_encoding.py
+                    python vectorizer.py
+                    python fit_knn_vectorized.py
                 """
             }
         }
