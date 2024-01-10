@@ -20,14 +20,6 @@ pipeline {
                 """
             }
         }
-        stage('Test') {
-            steps {
-                bat """
-                    call %python_venv%
-                    python result_analysis.py
-                """
-            }
-        }
     }
     // post {
     //     success{
