@@ -15,6 +15,10 @@ elif args[1] == "ant":
 else:
     exit()
 
+from_date = args[2]
+to_date = args[3]
+
+
 connection = mysql.connector.connect(user = "root", host = "localhost", password = "r@ndom06", database = database)
 cursor = connection.cursor(buffered=True)
 
@@ -40,13 +44,13 @@ FROM
     functional_testcase ON functional_testcase.id = functional_test.testcase_id
 WHERE
     setup.name = %s
-        AND testrun.date >= DATE('2022-08-01')
+        AND testrun.date >= between %s and %s
         AND LENGTH(functional_test.comments) != 0
         AND (functional_test.nb_steps_fail > 0
         OR functional_test.nb_steps_not_run > 0)
 ORDER BY testrun.date DESC
 '''
-    val = (setup,)
+    val = (setup,from_date, to_date)
     cursor.execute(sql,val)
     if(cursor.rowcount > 0):
     
