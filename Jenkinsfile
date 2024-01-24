@@ -16,9 +16,18 @@ pipeline {
                 """
             }
         }
+        stage('post-build-steps'){
+            steps {
+                bat """
+                    call %python_venv%
+                    python empty_directory.py
+                """
+            }
+        }
     }
     // post {
     //     success{
+
     //         script{
     //             currentBuild.description = """<img src='C:\ProgramData\Jenkins\.jenkins\workspace\ML_pipeline\accuracy_bar_plot.png' alt='accuracy_bar_plot' width='500' height='600'>"""
     //         } 
