@@ -17,6 +17,7 @@ def vectorizeReason(reason):
     vectors = vectorizer.fit_transform([reason])
     if vectors.size==1:
         log.debug(vectors)
+        log.debug(vectors.shape)
         vector_single_elem = np.append(vectors, 0, 1)
         log.debug(vector_single_elem)
         return vector_single_elem.toarray()
