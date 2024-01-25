@@ -16,7 +16,9 @@ def vectorizeReason(reason):
     vectorizer = TfidfVectorizer(analyzer="word")
     vectors = vectorizer.fit_transform([reason])
     if vectors.size==1:
+        log.debug(vectors)
         vector_single_elem = np.append(vectors, 0, 1)
+        log.debug(vector_single_elem)
         return vector_single_elem.toarray()
     return vectors.toarray()
 
