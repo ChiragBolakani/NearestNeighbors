@@ -77,12 +77,6 @@ def create_logger(loggerType='console'):
     log_obj = Logger(logFormatter=formatter, filename=str(datetime.date.today()), loggerType=loggerType, fileMode='a')
     return log_obj.getLogger()
 
-# log = create_logger()
-# log.error("fsfsfsfsfsf")
-# log.debug("jrpowrpowr")
-# log.info("dm;lamdmw")
-# validate_date("2023-15-09")
-
 def get_results_per_step(result_per_step, indicate_error=False):
     '''
     Parse the result_per_step field to a list of elements {'step': ..., 'result': ..., 'msg': ...}
