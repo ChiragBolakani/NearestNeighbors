@@ -34,7 +34,24 @@ try:
         setup_df["reason_encoded"] = None
         
         for index, row in setup_df.iterrows():
-            setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
+            '''
+            vectorizeReason() throws error while padding ie. adding 0 at the second position to increase vector array size in case where vector array is size of 1.  
+
+            zero-dimensional arrays cannot be concatenated
+            Traceback (most recent call last):
+            File "C:\ProgramData\Jenkins\.jenkins\workspace\ML_pipeline\vectorizer.py", line 37, in <module>
+                setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
+            File "C:\ProgramData\Jenkins\.jenkins\workspace\ML_pipeline\vectorizer.py", line 19, in vectorizeReason
+                vector_single_elem = np.append(vectors, 0, 1)
+            File "C:\ProgramData\Jenkins\.jenkins\workspace\ml task\ml_venv\lib\site-packages\numpy\lib\function_base.py", line 5617, in append
+                return concatenate((arr, values), axis=axis)
+            ValueError: zero-dimensional arrays cannot be concatenated
+            '''
+            try:
+                setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
+            except:
+                # if error then skip the current row and continue
+                continue
         
         data = np.array(setup_df[["reason_encoded"]])
         data_lens = []
