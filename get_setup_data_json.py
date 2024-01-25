@@ -3,6 +3,8 @@ import pandas as pd
 import json
 import sys
 from utils import validate_date, create_logger
+from config import USER, PASSWORD, HOST
+
 
 log = create_logger()
 
@@ -29,19 +31,16 @@ try:
 
 except ValueError as e:
     log.error("Error while validating date." + e.__str__())
-    # print("Error while validating date. " + e.__str__())
     sys.exit()
 except Exception as e:
     args_valid = False
     if len(args) < 4:
         log.error("Some arguments missing : python get_setup_names.py <location> <from_data> <to_date>")
-        # print("Some arguments missing : python get_setup_names.py <location> <from_data> <to_date>")
     else:
         log.error("invalid arguments passed")
-        # print("invalid arguments passed")
     sys.exit(1)
 
-connection = mysql.connector.connect(user = "root", host = "localhost", password = "r@ndom06", database = database)
+connection = mysql.connector.connect(user = USER, host = HOST, password = PASSWORD, database = database)
 cursor = connection.cursor(buffered=True)
 
 setup_df = pd.read_csv("setup.csv")
@@ -87,7 +86,6 @@ ORDER BY testrun.date DESC
             log.info("created json file at {setup}.".format(setup="setup_json_data/"+setup+".json"))
 
     else:
-        # print("No data found for setup : {setup}".format(setup=setup))
         log.info("no data found for setup : {setup}".format(setup=setup))
 
 connection.close()

@@ -3,6 +3,7 @@ from mysql.connector.errors import DatabaseError, ProgrammingError
 import pandas as pd
 import sys
 from utils import create_logger
+from config import USER, PASSWORD, HOST
 
 log = create_logger()
 
@@ -28,7 +29,7 @@ except Exception as e:
 
 if args_valid == True:
     try:
-        connection = mysql.connector.connect(user = "root", host = "localhost", password = "r@ndom06", database = database)
+        connection = mysql.connector.connect(user = USER, host = HOST, password = PASSWORD, database = database)
 
         cursor = connection.cursor()
 
