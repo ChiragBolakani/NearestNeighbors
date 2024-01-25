@@ -13,13 +13,21 @@ log = create_logger()
 warnings.filterwarnings('ignore')
 
 def vectorizeReason(reason):
+    # error = None    
+    # try:
+    #     vectorizer = TfidfVectorizer(analyzer="word")
+    #     vectors = vectorizer.fit_transform([reason])
+    #     if vectors.size==1:
+    #         vector_single_elem = np.append(vectors[0], 0, 1)
+    #         return vector_single_elem.toarray()
+    #     return vectors.toarray()
+    # except Exception as e:
+    #     error = e
+    #     return None 
     vectorizer = TfidfVectorizer(analyzer="word")
     vectors = vectorizer.fit_transform([reason])
     if vectors.size==1:
-        log.debug("vector %s", vectors)
-        log.debug("vector shape %s", vectors.shape)
-        vector_single_elem = np.append(vectors[0], 0, 1)
-        log.debug(vector_single_elem)
+        vector_single_elem = np.append(vectors, 0, 1)
         return vector_single_elem.toarray()
     return vectors.toarray()
 
@@ -50,18 +58,22 @@ try:
                 return concatenate((arr, values), axis=axis)
             ValueError: zero-dimensional arrays cannot be concatenated
             '''
-            setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
-            # try:
-            #     vectorized_reason = vectorizeReason(row["failed_reasons"])[0]
-            #     setup_df["reason_encoded"].loc[index] = vectorizeReason
-            # except:
-            #     # if error then skip the current row and continue
+            # print(vectorizeReason(row["failed_reasons"])[0])
+            # vectorized_reason, error = vectorizeReason(row["failed_reasons"])[0]
+            # if error == None and vectorized_reason != None:
+            #     setup_df["reason_encoded"].loc[index] = vectorized_reason
+            # else:
             #     continue
+                
+            vectorized_reason = vectorizeReason(row["failed_reasons"])[0]
+
         
         data = np.array(setup_df[["reason_encoded"]])
         data_lens = []
-
+        print("reading setup", pkl_file)
+        print(data)
         for encoded_reason in data:
+            print(encoded_reason)
             data_lens.append(len(encoded_reason[0]))
 
         padded_reason_encoded_temp = []
