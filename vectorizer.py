@@ -48,7 +48,8 @@ try:
             ValueError: zero-dimensional arrays cannot be concatenated
             '''
             try:
-                setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
+                vectorized_reason = vectorizeReason(row["failed_reasons"])[0]
+                setup_df["reason_encoded"].loc[index] = vectorizeReason
             except:
                 # if error then skip the current row and continue
                 continue
