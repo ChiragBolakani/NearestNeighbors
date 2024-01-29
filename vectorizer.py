@@ -4,7 +4,7 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 import warnings
-from utils import create_logger
+from utils import create_logger, checkWordsInStepReason
 
 log = create_logger()
 
@@ -15,22 +15,24 @@ warnings.filterwarnings('ignore')
 def vectorizeReason(reason):
     vectorizer = TfidfVectorizer(analyzer="word")
     vectors = vectorizer.fit_transform([reason])
+    # print(reason)
     if vectors.size==1:
+        print(reason)
         vector_single_elem = np.append(vectors, 0, 1)
         return vector_single_elem.toarray()
     return vectors.toarray()
 
 try:
-    pkl_files = [f for f in os.listdir("setup_data_column_encoded")]
+    pkl_files = [f for f in os.listdir("validated_setup_data_for_vectorizing")]
     if len(pkl_files) < 1:
-        raise FileNotFoundError("folder setup_data_column_encoded has no files")
+        raise FileNotFoundError("folder validated_setup_data_for_vectorizing has no files")
     else:
-        log.info("Found following files in folder setup_data_column_encoded : %s", ",".join(pkl_files))
+        log.info("Found following files in folder validated_setup_data_for_vectorizing : %s", ",".join(pkl_files))
 
     meta_data = {}
 
     for pkl_file in pkl_files:
-        setup_df = pd.read_pickle("setup_data_column_encoded/" + pkl_file)
+        setup_df = pd.read_pickle("validated_setup_data_for_vectorizing/" + pkl_file)
         setup_df["reason_encoded"] = None
         
         for index, row in setup_df.iterrows():
