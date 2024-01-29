@@ -17,9 +17,6 @@ class Logger:
         self.fileLocation = fileLocation
         self.fileMode = fileMode
         self.level = loggerLevel
-        
-        # print(self.loggerObject.__format__())
-
 
         self.createLogger()
         self.createHandler(loggerType)
@@ -130,3 +127,8 @@ def checkWordsInComment(comment):
     pattern = r"(?u)\b\w\w+\b"
     matches = re.findall(pattern=pattern, string=comment)
     return (len(matches), matches)
+
+def checkWordsInStepReason(comment):
+    pattern = r"(?u)\b\w\w+\b"
+    matches = re.findall(pattern=pattern, string=comment)
+    return len(matches)
