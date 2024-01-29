@@ -2,8 +2,11 @@ import numpy as np
 from sklearn.neighbors import NearestNeighbors
 import os
 import pickle
-from config import K_VALUE, ALGORITHM_FOR_NEIGHBORS
 from utils import create_logger
+if 'BUILD_NUMBER' in os.environ:
+    from config import K_VALUE, ALGORITHM_FOR_NEIGHBORS
+else:
+    from local_config import K_VALUE, ALGORITHM_FOR_NEIGHBORS
 
 log = create_logger()
 

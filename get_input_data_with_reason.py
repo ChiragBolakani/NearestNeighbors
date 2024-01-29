@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
-from utils import create_logger, get_failure_msg, checkWordsInComment
+from utils import create_logger, get_failure_msg, checkWordsInComment, checkWordsInStepReason
 
 log = create_logger()
 
@@ -36,6 +36,13 @@ try:
             failed_reasons_list.append(",".join(get_failure_msg(steps)))
 
         setup_df["failed_reasons"] = failed_reasons_list
+
+        for index, row in setup_df.iterrows():
+            len_words_in_step_reason = checkWordsInStepReason(setup_df["failed_reasons"].loc[index])
+            if len_words_in_step_reason < 2:
+                log.info("removed step_reason - %s [index - %s]", setup_df["failed_reasons"].loc[index],index )
+                setup_df.drop(index = [index])
+                continue
 
         processed_cleaned_setup_df = setup_df[["result_per_step", "mnemonic", "fr", "comments", "id", "failed_reasons"]]
         processed_cleaned_setup_df.to_pickle("setup_columns_extracted_data_with_reason/" + setup_json_file_name.split(".")[0]+".pkl")

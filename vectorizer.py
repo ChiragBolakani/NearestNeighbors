@@ -13,17 +13,6 @@ log = create_logger()
 warnings.filterwarnings('ignore')
 
 def vectorizeReason(reason):
-    # error = None    
-    # try:
-    #     vectorizer = TfidfVectorizer(analyzer="word")
-    #     vectors = vectorizer.fit_transform([reason])
-    #     if vectors.size==1:
-    #         vector_single_elem = np.append(vectors[0], 0, 1)
-    #         return vector_single_elem.toarray()
-    #     return vectors.toarray()
-    # except Exception as e:
-    #     error = e
-    #     return None 
     vectorizer = TfidfVectorizer(analyzer="word")
     vectors = vectorizer.fit_transform([reason])
     if vectors.size==1:
@@ -45,35 +34,12 @@ try:
         setup_df["reason_encoded"] = None
         
         for index, row in setup_df.iterrows():
-            '''
-            vectorizeReason() throws error while padding ie. adding 0 at the second position to increase vector array size in case where vector array is size of 1.  
-
-            zero-dimensional arrays cannot be concatenated
-            Traceback (most recent call last):
-            File "C:\ProgramData\Jenkins\.jenkins\workspace\ML_pipeline\vectorizer.py", line 37, in <module>
-                setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
-            File "C:\ProgramData\Jenkins\.jenkins\workspace\ML_pipeline\vectorizer.py", line 19, in vectorizeReason
-                vector_single_elem = np.append(vectors, 0, 1)
-            File "C:\ProgramData\Jenkins\.jenkins\workspace\ml task\ml_venv\lib\site-packages\numpy\lib\function_base.py", line 5617, in append
-                return concatenate((arr, values), axis=axis)
-            ValueError: zero-dimensional arrays cannot be concatenated
-            '''
-            # print(vectorizeReason(row["failed_reasons"])[0])
-            # vectorized_reason, error = vectorizeReason(row["failed_reasons"])[0]
-            # if error == None and vectorized_reason != None:
-            #     setup_df["reason_encoded"].loc[index] = vectorized_reason
-            # else:
-            #     continue
-                
-            vectorized_reason = vectorizeReason(row["failed_reasons"])[0]
-
+            setup_df["reason_encoded"].loc[index] = vectorizeReason(row["failed_reasons"])[0]
         
         data = np.array(setup_df[["reason_encoded"]])
         data_lens = []
-        print("reading setup", pkl_file)
-        print(data)
+
         for encoded_reason in data:
-            print(encoded_reason)
             data_lens.append(len(encoded_reason[0]))
 
         padded_reason_encoded_temp = []

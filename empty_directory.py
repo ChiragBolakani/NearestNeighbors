@@ -16,6 +16,9 @@ os.mkdir("label_encoders")
 shutil.rmtree("x_data")
 os.mkdir("x_data")
 
+shutil.rmtree("validated_setup_data_for_vectorizing")
+os.mkdir("validated_setup_data_for_vectorizing")
+
 if os.path.exists("setup.csv"):
     os.remove("setup.csv")
 else:

@@ -3,7 +3,12 @@ import pandas as pd
 import json
 import sys
 from utils import validate_date, create_logger
-from config import USER, PASSWORD, HOST
+import os
+
+if 'BUILD_NUMBER' in os.environ:
+    from config import USER, PASSWORD, HOST
+else:
+    from local_config import USER, PASSWORD, HOST
 
 
 log = create_logger()
@@ -13,7 +18,7 @@ args_valid = True
 
 try:
     if args[1] == "chn": 
-        database = "regression_db"
+        database = "regression_db_jan"
     elif args[1] == "ant":
         database = "regression_db_ant"
     else:
