@@ -13,6 +13,6 @@ if "setup_data_column_encoded" not in directories:
 if "setup_json_data" not in directories:
     os.mkdir("setup_json_data")
 if "validated_setup_data_for_vectoring" not in directories:
-    os.mkdir("validated_setup_data_for_vectoring")
+    os.mkdir("validated_setup_data_for_vectorizing")
 if "x_data" not in directories:
     os.mkdir("x_data")
