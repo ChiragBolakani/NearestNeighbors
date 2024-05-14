@@ -7,6 +7,7 @@ pipeline {
                 bat """
                     call %python_venv%
                     // commands.bat
+					python check_and_create_directory.py
                     python empty_directory.py
                     python get_setup_names.py %Location% 
                     python get_setup_data_json.py %Location% %From% %To%
