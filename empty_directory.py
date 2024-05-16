@@ -10,9 +10,6 @@ os.mkdir("setup_columns_extracted_data_with_reason")
 shutil.rmtree("setup_data_column_encoded")
 os.mkdir("setup_data_column_encoded")
 
-shutil.rmtree("label_encoders")
-os.mkdir("label_encoders")
-
 shutil.rmtree("x_data")
 os.mkdir("x_data")
 
